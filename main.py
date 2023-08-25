@@ -22,11 +22,7 @@ class CountdownApp:
         current_time = datetime.datetime.now()
         remaining_time = self.target_time - current_time
 
-        if remaining_time <= datetime.timedelta(minutes=0):
-            self.label.configure(bg="red", fg=font_color_01)
-            self.label.config(text="OVER")
-            break
-        elif remaining_time <= datetime.timedelta(minutes=2):
+        if remaining_time <= datetime.timedelta(minutes=2):
             if int(remaining_time.total_seconds()) % 2 == 0:
                 self.label.configure(bg="red", fg=font_color_01)
             else:
@@ -44,12 +40,17 @@ class CountdownApp:
 
         self.label.config(text=str(remaining_time).split(".")[0])
         
+        if remaining_time.total_seconds() <= 0:
+            self.label.configure(bg="red", fg=font_color_01)
+            self.label.config(text="OVER")
+            return
+        
     def exit_timer(self, event):
         self.root.destroy()
 
 if __name__ == "__main__":
-    target_hour = 20
-    target_minute = 18
+    target_hour = 21
+    target_minute = 5
     target_time = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, target_hour, target_minute)
     root = tk.Tk()
     app = CountdownApp(root, target_time)
