@@ -60,6 +60,13 @@ class CountdownApp:
     def exit_timer(self, event):
         self.root.destroy()
 
+def validate_and_adjust_time(hour, minute):
+    current_datetime = datetime.datetime.now()
+    target_datetime = current_datetime.replace(hour=hour, minute=minute)
+    if target_datetime < current_datetime:
+        target_datetime += datetime.timedelta(days=1)
+    return target_datetime
+
 if __name__ == "__main__":
     while True:
         time_input = input("Unesi vreme u formatu HHMM (0000-2359): ")
@@ -67,13 +74,14 @@ if __name__ == "__main__":
             target_hour = int(time_input[:2])
             target_minute = int(time_input[2:])
             if 0 <= target_hour <= 23 and 0 <= target_minute <= 59:
+                target_datetime = validate_and_adjust_time(target_hour, target_minute)
                 break
             else:
                 print("Unesi validno vreme između 0000 i 2359.")
         else:
             print("Unesi vreme u formatu HHMM.")
 
-    target_time = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, target_hour, target_minute)
+    target_time = datetime.datetime(target_datetime.year, target_datetime.month, target_datetime.day, target_hour, target_minute)
     root = tk.Tk()
     app = CountdownApp(root, target_time)
     root.mainloop()
