@@ -3,6 +3,7 @@ import datetime
 
 font_color_01 = "white"
 font_color_02 = "black"
+font_family = "Helvetica"
 
 class CountdownApp:
     def __init__(self, root, target_time):
@@ -10,7 +11,7 @@ class CountdownApp:
         self.root.title("Countdown Timer")
         self.root.attributes("-fullscreen", True)
 
-        self.label = tk.Label(root, font=("Helvetica", 300), bg="black", fg=font_color_01)
+        self.label = tk.Label(root, font=(font_family, 250), bg="black", fg=font_color_01)
         self.label.pack(expand=True, fill="both")
 
         self.target_time = target_time
@@ -27,6 +28,7 @@ class CountdownApp:
 
         if hours == 0:
             time_text = f"{minutes:02d}:{seconds:02d}"
+            self.label.configure(font=(font_family, 250))
         else:
             time_text = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
